@@ -95,16 +95,31 @@ def balance(update, context):
 @restricted
 def trade(update, context):
     try:
+        # context.args is list of strings /trade btc 100 -> ["btc", "100"]
+        # context.bot.send_message(chat_id=update.effective_chat.id, text=context.args)
 
-        context.bot.send_message(
-            chat_id=update.effective_chat.id, text=" ".join(context.args).upper()
+        amount = get_balance(0) * (float(context.args[1]) / 100)
+
+        if context.args[0].upper() == "BTC":
+            coin = 0
+        if context.args[0].upper() == "ETH":
+            coin = 1
+        if context.args[0].upper() == "XRP":
+            coin = 2
+        if context.args[0].upper() == "BCH":
+            coin = 3
+        if context.args[0].upper() == "LTC":
+            coin = 4
+        if context.args[0].upper() == "ZEC":
+            coin = 5
+
+        new_buy_market_order = private_api.create_exchange_buy_market_order(
+            public_api.get_exchange_markets_info()["symbols"][coin]["symbol"], amount
         )
-
-        # amount = get_balance(0)  # !!!
-
-        # new_buy_market_order = private_api.create_exchange_buy_market_order(
-        #     public_api.get_exchange_markets_info()["symbols"][1]["symbol"], amount
-        # )
+        context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f'Bought {new_buy_market_order["executedQty"]} {coin}',
+        )
     except Exception as e:
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
 
