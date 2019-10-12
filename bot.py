@@ -95,26 +95,32 @@ def balance(update, context):
 @restricted
 def trade(update, context):
     def buy(pair, amount):
-        if context.args[0].upper() == "BUY":
-            new_buy_market_order = private_api.create_exchange_buy_market_order(
-                public_api.get_exchange_markets_info()["symbols"][pair]["symbol"],
-                amount,
-            )
-            context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=f'Bought {new_buy_market_order["executedQty"]} {context.args[1].upper()}',
-            )
+        try:
+            if context.args[0].upper() == "BUY":
+                new_buy_market_order = private_api.create_exchange_buy_market_order(
+                    public_api.get_exchange_markets_info()["symbols"][pair]["symbol"],
+                    amount,
+                )
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=f'Bought {new_buy_market_order["executedQty"]} {context.args[1].upper()}',
+                )
+        except Exception as e:
+            context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
 
     def sell(pair, amount):
-        if context.args[0].upper() == "SELL":
-            new_sell_market_order = private_api.create_exchange_sell_market_order(
-                public_api.get_exchange_markets_info()["symbols"][pair]["symbol"],
-                amount,
-            )
-            context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text=f'Sold {new_sell_market_order["executedQty"]} {context.args[1].upper()}',
-            )
+        try:
+            if context.args[0].upper() == "SELL":
+                new_sell_market_order = private_api.create_exchange_sell_market_order(
+                    public_api.get_exchange_markets_info()["symbols"][pair]["symbol"],
+                    amount,
+                )
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=f'Sold {new_sell_market_order["executedQty"]} {context.args[1].upper()}',
+                )
+        except Exception as e:
+            context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
 
     try:
         # context.args is list of strings /trade btc 100 -> ["btc", "100"]
