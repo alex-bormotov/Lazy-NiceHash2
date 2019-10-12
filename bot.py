@@ -102,7 +102,7 @@ def trade(update, context):
             )
             context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=f'Bought {new_buy_market_order["executedQty"]} {pair}',
+                text=f'Bought {new_buy_market_order["executedQty"]} {context.args[1].upper()}',
             )
 
     def sell(pair, amount):
@@ -113,7 +113,7 @@ def trade(update, context):
             )
             context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=f'Sold {new_sell_market_order["executedQty"]} {pair}',
+                text=f'Sold {new_sell_market_order["executedQty"]} {context.args[1].upper()}',
             )
 
     try:
