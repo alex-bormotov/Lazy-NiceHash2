@@ -180,6 +180,5 @@ updater.dispatcher.add_handler(CommandHandler("help", help))
 updater.dispatcher.add_handler(CommandHandler("balance", balance))
 updater.dispatcher.add_handler(CommandHandler("trade", trade))
 
-
 updater.start_polling()
 updater.idle()
