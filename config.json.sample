@@ -3,5 +3,5 @@
   "nicehash_api_key": "",
   "nicehahs_api_secret": "",
   "telegram_bot_token" : "Token",
-  "telegram_admins_id": [12345678]
+  "telegram_admin_id": [12345678]
 }
