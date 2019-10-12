@@ -76,17 +76,17 @@ def balance(update, context):
         if coin not in ["BTC", "ETH", "XRP", "BCH", "LTC", "ZEC"]:
             balance = "Enter correct coin name, like /balance btc"
         if coin == "BTC":
-            balance = " You have " + str(get_balance(0)) + "BTC"
+            balance = " You have " + str(get_balance(0)) + " BTC"
         if coin == "ETH":
-            balance = " You have " + str(get_balance(1)) + "ETH"
+            balance = " You have " + str(get_balance(1)) + " ETH"
         if coin == "XRP":
-            balance = " You have " + str(get_balance(2)) + "XRP"
+            balance = " You have " + str(get_balance(2)) + " XRP"
         if coin == "BCH":
-            balance = " You have " + str(get_balance(3)) + "BCH"
+            balance = " You have " + str(get_balance(3)) + " BCH"
         if coin == "LTC":
-            balance = " You have " + str(get_balance(4)) + "LTC"
+            balance = " You have " + str(get_balance(4)) + " LTC"
         if coin == "ZEC":
-            balance = " You have " + str(get_balance(5)) + "ZEC"
+            balance = " You have " + str(get_balance(5)) + " ZEC"
         context.bot.send_message(chat_id=update.effective_chat.id, text=balance)
     except Exception as e:
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
