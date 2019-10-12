@@ -57,7 +57,15 @@ def restricted(func):
 
 def start(update, context):
     context.bot.send_message(
-        chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!"
+        chat_id=update.effective_chat.id,
+        text="I'm a bot, please talk to me! For showing all commands type /help",
+    )
+
+
+def help(update, context):
+    context.bot.send_message(
+        chat_id=update.effective_chat.id,
+        text="/balance <coin>" + "\n" + "/trade <coin> <percentage_from_balance>",
     )
 
 
@@ -103,6 +111,7 @@ def trade(update, context):
 
 updater = Updater(get_config()["telegram_bot_token"], use_context=True)
 updater.dispatcher.add_handler(CommandHandler("start", start))
+updater.dispatcher.add_handler(CommandHandler("help", help))
 updater.dispatcher.add_handler(CommandHandler("balance", balance))
 updater.dispatcher.add_handler(CommandHandler("trade", trade))
 
