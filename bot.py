@@ -33,8 +33,6 @@ def get_balance(coin):
     return float(private_api.get_accounts()[coin]["balance"])
 
 
-# telegram func:
-
 # LIST_OF_ADMINS = [12345678, 87654321]
 LIST_OF_ADMINS = get_config()["telegram_admin_id"]
 
@@ -65,7 +63,9 @@ def start(update, context):
 def help(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text="/balance <coin>" + "\n" + "/trade <coin> <percentage_from_balance>",
+        text="/balance <coin>"
+        + "\n"
+        + "/trade <buy/sell> <coin> <percentage_from_balance>",
     )
 
 
@@ -94,32 +94,82 @@ def balance(update, context):
 
 @restricted
 def trade(update, context):
+    def buy(pair, amount):
+        if context.args[0].upper() == "BUY":
+            new_buy_market_order = private_api.create_exchange_buy_market_order(
+                public_api.get_exchange_markets_info()["symbols"][pair]["symbol"],
+                amount,
+            )
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=f'Bought {new_buy_market_order["executedQty"]} {pair}',
+            )
+
+    def sell(pair, amount):
+        if context.args[0].upper() == "SELL":
+            new_sell_market_order = private_api.create_exchange_sell_market_order(
+                public_api.get_exchange_markets_info()["symbols"][pair]["symbol"],
+                amount,
+            )
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=f'Sold {new_sell_market_order["executedQty"]} {pair}',
+            )
+
     try:
         # context.args is list of strings /trade btc 100 -> ["btc", "100"]
         # context.bot.send_message(chat_id=update.effective_chat.id, text=context.args)
 
-        amount = get_balance(0) * (float(context.args[1]) / 100)
+        if context.args[1].upper() == "ETH":
+            if context.args[0].upper() == "SELL":
+                pair = 4  # ETHBTC 4
+                amount = get_balance(1) * (float(context.args[2]) / 100)
+                sell(pair, amount)
+            if context.args[0].upper() == "BUY":
+                pair = 4  # ETHBTC 4
+                amount = get_balance(0) * (float(context.args[2]) / 100)
+                buy(pair, amount)
 
-        if context.args[0].upper() == "BTC":
-            coin = 0
-        if context.args[0].upper() == "ETH":
-            coin = 1
-        if context.args[0].upper() == "XRP":
-            coin = 2
-        if context.args[0].upper() == "BCH":
-            coin = 3
-        if context.args[0].upper() == "LTC":
-            coin = 4
-        if context.args[0].upper() == "ZEC":
-            coin = 5
+        if context.args[1].upper() == "XRP":
+            if context.args[0].upper() == "SELL":
+                pair = 1  # XRPBTC 1
+                amount = get_balance(2) * (float(context.args[2]) / 100)
+                sell(pair, amount)
+            if context.args[0].upper() == "BUY":
+                pair = 1  # XRPBTC 4
+                amount = get_balance(0) * (float(context.args[2]) / 100)
+                buy(pair, amount)
 
-        new_buy_market_order = private_api.create_exchange_buy_market_order(
-            public_api.get_exchange_markets_info()["symbols"][coin]["symbol"], amount
-        )
-        context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=f'Bought {new_buy_market_order["executedQty"]} {coin}',
-        )
+        if context.args[1].upper() == "BCH":
+            if context.args[0].upper() == "SELL":
+                pair = 3  # BCHBTC 3
+                amount = get_balance(3) * (float(context.args[2]) / 100)
+                sell(pair, amount)
+            if context.args[0].upper() == "BUY":
+                pair = 3  # BCHBTC 3
+                amount = get_balance(0) * (float(context.args[2]) / 100)
+                buy(pair, amount)
+
+        if context.args[1].upper() == "LTC":
+            if context.args[0].upper() == "SELL":
+                pair = 0  # LTCBTC 0
+                amount = get_balance(4) * (float(context.args[2]) / 100)
+                sell(pair, amount)
+            if context.args[0].upper() == "BUY":
+                pair = 0  # LTCBTC 0
+                amount = get_balance(0) * (float(context.args[2]) / 100)
+                buy(pair, amount)
+
+        if context.args[1].upper() == "ZEC":
+            if context.args[0].upper() == "SELL":
+                pair = 2  # ZECBTC 2
+                amount = get_balance(5) * (float(context.args[2]) / 100)
+                sell(pair, amount)
+            if context.args[0].upper() == "BUY":
+                pair = 2  # ZECBTC 2
+                amount = get_balance(0) * (float(context.args[2]) / 100)
+                buy(pair, amount)
+
     except Exception as e:
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
 
@@ -133,4 +183,3 @@ updater.dispatcher.add_handler(CommandHandler("trade", trade))
 
 updater.start_polling()
 updater.idle()
-# end telegram func
