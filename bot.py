@@ -251,7 +251,7 @@ def autoexchange(update, context):
     if len(" ".join(context.args)) == 0:
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="/autoexchange <state> <coin> <period_hours> <percentage_from_balance>\n\nAn example (buy XRP on all BTC balance once a day): \n/autoexchange on xrp 24 100\n\nTo stop autoexchange:\n /autoexchange off",
+            text="/autoexchange <state> <coin> <period_hours> <percentage_from_balance>\n\nTo start buy XRP on all BTC balance once a day:\n/autoexchange on xrp 24 100\n\nTo stop autoexchange:\n/autoexchange off",
         )
     else:
 
