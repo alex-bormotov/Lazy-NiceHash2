@@ -80,17 +80,17 @@ def balance(update, context):
         else:
 
             if coin == "BTC":
-                balance = " You have " + str(get_balance(0)) + " BTC"
+                balance = f"You have {str(get_balance(0))} BTC"
             if coin == "ETH":
-                balance = " You have " + str(get_balance(1)) + " ETH"
+                balance = f"You have {str(get_balance(0))} ETH"
             if coin == "XRP":
-                balance = " You have " + str(get_balance(2)) + " XRP"
+                balance = f"You have {str(get_balance(0))} XRP"
             if coin == "BCH":
-                balance = " You have " + str(get_balance(3)) + " BCH"
+                balance = f"You have {str(get_balance(0))} BCH"
             if coin == "LTC":
-                balance = " You have " + str(get_balance(4)) + " LTC"
+                balance = f"You have {str(get_balance(0))} LTC"
             if coin == "ZEC":
-                balance = " You have " + str(get_balance(5)) + " ZEC"
+                balance = f"You have {str(get_balance(0))} ZEC"
             context.bot.send_message(chat_id=update.effective_chat.id, text=balance)
     except Exception as e:
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
