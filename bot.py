@@ -373,14 +373,16 @@ def get_all_prices(update, context):
     )
 
 
-updater = Updater(get_config()["telegram_bot_token"], use_context=True)
-updater.dispatcher.add_handler(CommandHandler("start", start))
-updater.dispatcher.add_handler(CommandHandler("help", help))
-updater.dispatcher.add_handler(CommandHandler("balance", balance))
-updater.dispatcher.add_handler(CommandHandler("trade", trade))
-updater.dispatcher.add_handler(CommandHandler("autoexchange", autoexchange))
-updater.dispatcher.add_handler(CommandHandler("price", get_all_prices))
+if __name__ == "__main__":
 
-updater.start_polling()
-autoexchange_polling()
-updater.idle()
+    updater = Updater(get_config()["telegram_bot_token"], use_context=True)
+    updater.dispatcher.add_handler(CommandHandler("start", start))
+    updater.dispatcher.add_handler(CommandHandler("help", help))
+    updater.dispatcher.add_handler(CommandHandler("balance", balance))
+    updater.dispatcher.add_handler(CommandHandler("trade", trade))
+    updater.dispatcher.add_handler(CommandHandler("autoexchange", autoexchange))
+    updater.dispatcher.add_handler(CommandHandler("price", get_all_prices))
+
+    updater.start_polling()
+    autoexchange_polling()
+    updater.idle()
