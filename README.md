@@ -65,7 +65,7 @@ sudo docker build -t lazy-nicehash2 .
 ```
 
 ```bash
-sudo docker run Lazy-NiceHash2 &
+sudo docker run lazy-nicehash2 &
 ```
 ---
 
@@ -100,7 +100,7 @@ sudo docker build -t lazy-nicehash2 .
 ```
 
 ```bash
-sudo docker run Lazy-NiceHash2 &
+sudo docker run lazy-nicehash2 &
 ```
 ---
 
