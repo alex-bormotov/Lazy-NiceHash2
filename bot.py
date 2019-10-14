@@ -1,5 +1,6 @@
 import json
 import time
+import cbpro
 import requests
 import nicehash
 import http.client
@@ -62,7 +63,8 @@ def start(update, context):
 
 def help(update, context):
     context.bot.send_message(
-        chat_id=update.effective_chat.id, text="/balance\n\n/trade\n\n/autoexchange"
+        chat_id=update.effective_chat.id,
+        text="/balance\n\n/trade\n\n/autoexchange\n\n/price",
     )
 
 
@@ -327,12 +329,29 @@ def autoexchange_polling():
             continue
 
 
+def get_usd_price(update, context):
+    # Coinbace Pro Public API
+    # https://github.com/danpaquin/coinbasepro-python
+
+    btc_usd = cbpro.PublicClient().get_product_ticker(product_id="BTC-USD")["price"]
+    xrp_usd = cbpro.PublicClient().get_product_ticker(product_id="XRP-USD")["price"]
+    eth_usd = cbpro.PublicClient().get_product_ticker(product_id="ETH-USD")["price"]
+    bch_usd = cbpro.PublicClient().get_product_ticker(product_id="BCH-USD")["price"]
+    ltc_usd = cbpro.PublicClient().get_product_ticker(product_id="LTC-USD")["price"]
+
+    updater.bot.send_message(
+        chat_id=LIST_OF_ADMINS[0],
+        text=f"BTC-USD {str(btc_usd)}\nXRP-USD {str(xrp_usd)}\nETH-USD {str(eth_usd)}\nBCH-USD {str(bch_usd)}\nLTC-USD {str(ltc_usd)}\n\nCoinbasePro rates\n{str(datetime.utcnow())[:19]} (UTC)",
+    )
+
+
 updater = Updater(get_config()["telegram_bot_token"], use_context=True)
 updater.dispatcher.add_handler(CommandHandler("start", start))
 updater.dispatcher.add_handler(CommandHandler("help", help))
 updater.dispatcher.add_handler(CommandHandler("balance", balance))
 updater.dispatcher.add_handler(CommandHandler("trade", trade))
 updater.dispatcher.add_handler(CommandHandler("autoexchange", autoexchange))
+updater.dispatcher.add_handler(CommandHandler("price", get_usd_price))
 
 updater.start_polling()
 autoexchange_polling()
