@@ -61,7 +61,7 @@ cp config.json.sample config.json
 > edit config.json
 
 ```bash
-sudo docker build -t Lazy-NiceHash2 .
+sudo docker build -t lazy-nicehash2 .
 ```
 
 ```bash
@@ -96,7 +96,7 @@ git pull origin master
 ```
 
 ```bash
-sudo docker build -t Lazy-NiceHash2 .
+sudo docker build -t lazy-nicehash2 .
 ```
 
 ```bash
