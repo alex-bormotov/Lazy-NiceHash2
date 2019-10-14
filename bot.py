@@ -38,6 +38,16 @@ def get_balance(coin):
     return float(private_api.get_accounts()[coin]["balance"])
 
 
+def get_price(coin, current_balance):
+    if current_balance != 0:
+        price = float(
+            cbpro.PublicClient().get_product_ticker(product_id=f"{coin}-USD")["price"]
+        )
+        return round(price * current_balance)
+    else:
+        return 0
+
+
 def restricted(func):
     @wraps(func)
     def wrapped(update, context, *args, **kwargs):
@@ -70,6 +80,7 @@ def help(update, context):
 
 @restricted
 def balance(update, context):
+
     try:
         coin = " ".join(context.args).upper()
         if len(coin) == 0:
@@ -80,18 +91,35 @@ def balance(update, context):
         else:
 
             if coin == "BTC":
-                balance = f"You have {str(get_balance(0))} BTC"
+                btc_balance = get_balance(0)
+                balance = (
+                    f"You have {str(btc_balance)} BTC ~$ {get_price(coin, btc_balance)}"
+                )
             if coin == "ETH":
-                balance = f"You have {str(get_balance(1))} ETH"
+                eth_balance = get_balance(1)
+                balance = (
+                    f"You have {str(eth_balance)} ETH ~$ {get_price(coin, eth_balance)}"
+                )
             if coin == "XRP":
-                balance = f"You have {str(get_balance(2))} XRP"
+                xrp_balance = get_balance(2)
+                balance = (
+                    f"You have {str(xrp_balance)} XRP ~$ {get_price(coin, xrp_balance)}"
+                )
             if coin == "BCH":
-                balance = f"You have {str(get_balance(3))} BCH"
+                bch_balance = get_balance(3)
+                balance = (
+                    f"You have {str(bch_balance)} BCH ~$ {get_price(coin, bch_balance)}"
+                )
             if coin == "LTC":
-                balance = f"You have {str(get_balance(4))} LTC"
+                ltc_balance = get_balance(4)
+                balance = (
+                    f"You have {str(ltc_balance)} LTC ~$ {get_price(coin, ltc_balance)}"
+                )
             if coin == "ZEC":
-                balance = f"You have {str(get_balance(5))} ZEC"
+                zec_balance = get_balance(5)
+                balance = f"You have {str(zec_balance)} ZEC"
             context.bot.send_message(chat_id=update.effective_chat.id, text=balance)
+
     except Exception as e:
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
 
@@ -329,7 +357,7 @@ def autoexchange_polling():
             continue
 
 
-def get_usd_price(update, context):
+def get_all_prices(update, context):
     # Coinbace Pro Public API
     # https://github.com/danpaquin/coinbasepro-python
 
@@ -351,7 +379,7 @@ updater.dispatcher.add_handler(CommandHandler("help", help))
 updater.dispatcher.add_handler(CommandHandler("balance", balance))
 updater.dispatcher.add_handler(CommandHandler("trade", trade))
 updater.dispatcher.add_handler(CommandHandler("autoexchange", autoexchange))
-updater.dispatcher.add_handler(CommandHandler("price", get_usd_price))
+updater.dispatcher.add_handler(CommandHandler("price", get_all_prices))
 
 updater.start_polling()
 autoexchange_polling()
