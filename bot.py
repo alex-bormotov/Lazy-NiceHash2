@@ -82,15 +82,15 @@ def balance(update, context):
             if coin == "BTC":
                 balance = f"You have {str(get_balance(0))} BTC"
             if coin == "ETH":
-                balance = f"You have {str(get_balance(0))} ETH"
+                balance = f"You have {str(get_balance(1))} ETH"
             if coin == "XRP":
-                balance = f"You have {str(get_balance(0))} XRP"
+                balance = f"You have {str(get_balance(2))} XRP"
             if coin == "BCH":
-                balance = f"You have {str(get_balance(0))} BCH"
+                balance = f"You have {str(get_balance(3))} BCH"
             if coin == "LTC":
-                balance = f"You have {str(get_balance(0))} LTC"
+                balance = f"You have {str(get_balance(4))} LTC"
             if coin == "ZEC":
-                balance = f"You have {str(get_balance(0))} ZEC"
+                balance = f"You have {str(get_balance(5))} ZEC"
             context.bot.send_message(chat_id=update.effective_chat.id, text=balance)
     except Exception as e:
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(e))
