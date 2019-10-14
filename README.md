@@ -1,4 +1,4 @@
-# Lazy-NiceHash22
+# Lazy-NiceHash2
 
 ## Features
 
