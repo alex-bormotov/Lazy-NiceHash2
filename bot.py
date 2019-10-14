@@ -213,6 +213,7 @@ def auto_trade():
 
     try:
         if last_start + timedelta(hours=period) < datetime.utcnow():
+            # if last_start + timedelta(seconds=19) < datetime.utcnow():
             if coin == "ETH":
                 pair = 4  # ETHBTC 4
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
@@ -251,9 +252,26 @@ def autoexchange(update, context):
     if len(" ".join(context.args)) == 0:
         context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="/autoexchange <state> <coin> <period_hours> <percentage_from_balance>\n\nTo start buy XRP on all BTC balance once a day:\n/autoexchange on xrp 24 100\n\nTo stop autoexchange:\n/autoexchange off",
+            text="/autoexchange <state> <coin> <period_hours> <percentage_from_balance>\n\nTo start buy XRP on all BTC balance once a day:\n/autoexchange on xrp 24 100\n\nTo stop autoexchange:\n/autoexchange off\n\nTo see current status:\n/autoexchange status",
         )
     else:
+
+        if context.args[0].upper() == "STATUS":
+            if state == "ON":
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=f"Autoexchange is {state}\nCoin is {coin}\nPeriod is {str(int(period))} hour(s)\n% from BTC balance is {percentage_from_balance}\nStart date {str(last_start)[:19]} (UTC)",
+                )
+            if state == "OFF":
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id, text=f"Autoexchange is {state}"
+                )
+
+        if context.args[0].upper() == "ON" and state == "ON":
+            context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="Autoexchange is already running, stop it before new start",
+            )
 
         if context.args[0].upper() == "OFF":
             state = "OFF"
@@ -266,7 +284,7 @@ def autoexchange(update, context):
                 text=f"Autoexchange disabled\nStop date {str(datetime.utcnow())[:19]} (UTC)",
             )
 
-        if context.args[0].upper() == "ON":
+        if context.args[0].upper() == "ON" and state == "OFF":
             state = context.args[0].upper()
             coin = context.args[1].upper()
             period = float(context.args[2])
@@ -282,7 +300,7 @@ def autoexchange(update, context):
 
             context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=f"Autoexchange enabled:\n(Buying {coin} once in {int(period)} hours on {percentage_from_balance} % from BTC balance)\nStart date {str(last_start)[:19]} (UTC)",
+                text=f"Autoexchange enabled:\n(Buying {coin} once in {int(period)} hour(s) on {percentage_from_balance} % from BTC balance)\nStart date {str(last_start)[:19]} (UTC)",
             )
 
 
