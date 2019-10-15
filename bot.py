@@ -64,6 +64,7 @@ def restricted(func):
     return wrapped
 
 
+@restricted
 def start(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -71,6 +72,7 @@ def start(update, context):
     )
 
 
+@restricted
 def help(update, context):
     context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -357,6 +359,7 @@ def autoexchange_polling():
             continue
 
 
+@restricted
 def get_all_prices(update, context):
     # Coinbace Pro Public API
     # https://github.com/danpaquin/coinbasepro-python
