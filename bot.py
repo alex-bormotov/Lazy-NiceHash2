@@ -249,6 +249,7 @@ def auto_trade():
             if coin == "ETH":
                 pair = 4  # ETHBTC 4
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
+                buy(pair, amount)
             if coin == "XRP":
                 pair = 1  # XRPBTC 1
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
