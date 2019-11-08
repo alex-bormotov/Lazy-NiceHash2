@@ -119,7 +119,17 @@ def balance(update, context):
                 )
             if coin == "ZEC":
                 zec_balance = get_balance(5)
-                balance = f"You have {str(zec_balance)} ZEC"
+                balance = f"You have {str(zec_balance)} ZEC ~$ (currently not tradable on cbpro)"
+
+            if coin == "DASH":
+                dash_balance = get_balance(6)
+                balance = f"You have {str(dash_balance)} DASH ~$ {get_price(coin, dash_balance)}"
+
+            if coin == "XLM":
+                xlm_balance = get_balance(7)
+                balance = (
+                    f"You have {str(xlm_balance)} XLM ~$ {get_price(coin, xlm_balance)}"
+                )
             context.bot.send_message(chat_id=update.effective_chat.id, text=balance)
 
     except Exception as e:
@@ -165,15 +175,15 @@ def trade(update, context):
                 chat_id=update.effective_chat.id,
                 text="/trade <buy/sell> <coin> <percentage_from_balance> \n\nAn example (buy XRP on all BTC balance): \n/trade buy xrp 100",
             )
-        else:
 
-            if context.args[1].upper() == "ETH":
+        else:
+            if context.args[1].upper() == "LTC":
                 if context.args[0].upper() == "SELL":
-                    pair = 4  # ETHBTC 4
-                    amount = get_balance(1) * (float(context.args[2]) / 100)
+                    pair = 0  # LTCBTC 0
+                    amount = get_balance(4) * (float(context.args[2]) / 100)
                     sell(pair, amount)
                 if context.args[0].upper() == "BUY":
-                    pair = 4  # ETHBTC 4
+                    pair = 0  # LTCBTC 0
                     amount = get_balance(0) * (float(context.args[2]) / 100)
                     buy(pair, amount)
 
@@ -187,6 +197,16 @@ def trade(update, context):
                     amount = get_balance(0) * (float(context.args[2]) / 100)
                     buy(pair, amount)
 
+            if context.args[1].upper() == "ZEC":
+                if context.args[0].upper() == "SELL":
+                    pair = 2  # ZECBTC 2
+                    amount = get_balance(5) * (float(context.args[2]) / 100)
+                    sell(pair, amount)
+                if context.args[0].upper() == "BUY":
+                    pair = 2  # ZECBTC 2
+                    amount = get_balance(0) * (float(context.args[2]) / 100)
+                    buy(pair, amount)
+
             if context.args[1].upper() == "BCH":
                 if context.args[0].upper() == "SELL":
                     pair = 3  # BCHBTC 3
@@ -197,23 +217,33 @@ def trade(update, context):
                     amount = get_balance(0) * (float(context.args[2]) / 100)
                     buy(pair, amount)
 
-            if context.args[1].upper() == "LTC":
+            if context.args[1].upper() == "XLM":
                 if context.args[0].upper() == "SELL":
-                    pair = 0  # LTCBTC 0
-                    amount = get_balance(4) * (float(context.args[2]) / 100)
+                    pair = 4  # XLMBTC 4
+                    amount = get_balance(7) * (float(context.args[2]) / 100)
                     sell(pair, amount)
                 if context.args[0].upper() == "BUY":
-                    pair = 0  # LTCBTC 0
+                    pair = 4  # XLMBTC 4
                     amount = get_balance(0) * (float(context.args[2]) / 100)
                     buy(pair, amount)
 
-            if context.args[1].upper() == "ZEC":
+            if context.args[1].upper() == "DASH":
                 if context.args[0].upper() == "SELL":
-                    pair = 2  # ZECBTC 2
-                    amount = get_balance(5) * (float(context.args[2]) / 100)
+                    pair = 5  # DASHBTC 5
+                    amount = get_balance(6) * (float(context.args[2]) / 100)
                     sell(pair, amount)
                 if context.args[0].upper() == "BUY":
-                    pair = 2  # ZECBTC 2
+                    pair = 5  # DASHBTC 5
+                    amount = get_balance(0) * (float(context.args[2]) / 100)
+                    buy(pair, amount)
+
+            if context.args[1].upper() == "ETH":
+                if context.args[0].upper() == "SELL":
+                    pair = 6  # ETHBTC 6
+                    amount = get_balance(1) * (float(context.args[2]) / 100)
+                    sell(pair, amount)
+                if context.args[0].upper() == "BUY":
+                    pair = 6  # ETHBTC 6
                     amount = get_balance(0) * (float(context.args[2]) / 100)
                     buy(pair, amount)
 
