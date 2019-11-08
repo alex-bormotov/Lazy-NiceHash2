@@ -276,24 +276,32 @@ def auto_trade():
     try:
         if last_start + timedelta(hours=period) < datetime.utcnow():
             # if last_start + timedelta(seconds=19) < datetime.utcnow():
-            if coin == "ETH":
-                pair = 4  # ETHBTC 4
+            if coin == "LTC":
+                pair = 0  # LTCBTC 0
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
                 buy(pair, amount)
             if coin == "XRP":
                 pair = 1  # XRPBTC 1
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
                 buy(pair, amount)
+            if coin == "ZEC":
+                pair = 2  # ZECBTC 2
+                amount = get_balance(0) * (float(percentage_from_balance) / 100)
+                buy(pair, amount)
             if coin == "BCH":
                 pair = 3  # BCHBTC 3
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
                 buy(pair, amount)
-            if coin == "LTC":
-                pair = 0  # LTCBTC 0
+            if coin == "XLM":
+                pair = 4  # XLMBTC 4
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
                 buy(pair, amount)
-            if coin == "ZEC":
-                pair = 2  # ZECBTC 2
+            if coin == "DASH":
+                pair = 5  # DASHBTC 5
+                amount = get_balance(0) * (float(percentage_from_balance) / 100)
+                buy(pair, amount)
+            if coin == "ETH":
+                pair = 6  # ETHBTC 6
                 amount = get_balance(0) * (float(percentage_from_balance) / 100)
                 buy(pair, amount)
 
