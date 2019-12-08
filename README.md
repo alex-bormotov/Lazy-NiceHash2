@@ -105,8 +105,6 @@ sudo docker run lazy-nicehash2 &
 
 ---
 
-> This is my second Python project
-
 > If my code was useful for you may buy me tea: 
 
 > BTC 1LTwU8hVYxxpHUDf3wYNDjnS9kK4PDdtgT
